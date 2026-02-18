@@ -1,69 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
 :root {
     --accent: #00f2ff;
-    --glass: rgba(15, 15, 15, 0.8);
-    --border: rgba(255, 255, 255, 0.1);
+    --accent-dim: rgba(0, 242, 255, 0.3);
+    --bg: #050505;
+    --glass: rgba(10, 10, 10, 0.75);
+    --border: rgba(255, 255, 255, 0.08);
+    --error: #ff2a6d;
 }
 
 body, html {
     margin: 0; padding: 0; height: 100%;
-    background: #000; color: #fff;
+    background: var(--bg); color: #fff;
     font-family: 'Inter', sans-serif; overflow: hidden;
 }
 
 #desktop {
     height: calc(100vh - 60px);
-    background: radial-gradient(circle at center, #111 0%, #000 100%);
-    padding: 30px; display: flex; flex-direction: column; gap: 10px;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 242, 255, 0.05) 0%, transparent 50%), #000;
+    padding: 30px; display: flex; flex-direction: column; gap: 15px; position: relative;
 }
 
+/* Glass Windows */
 .window {
     position: absolute; background: var(--glass);
-    backdrop-filter: blur(20px); border: 1px solid var(--border);
-    border-radius: 12px; display: none; z-index: 10; overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid var(--border); border-radius: 16px;
+    display: none; z-index: 10; overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
 }
 
 .window-header {
-    background: rgba(255,255,255,0.03); padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.02); padding: 14px 20px;
     cursor: move; display: flex; justify-content: space-between;
-    font-size: 10px; letter-spacing: 2px; border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    border-bottom: 1px solid var(--border); color: rgba(255,255,255,0.5);
 }
 
-.window-header button { background: none; border: none; color: #fff; cursor: pointer; }
+.window-header button { 
+    background: none; border: none; color: #fff; cursor: pointer; font-size: 14px;
+}
 
 .window-content { padding: 20px; height: calc(100% - 60px); overflow-y: auto; }
 
 /* Icons */
-.icon {
-    width: 80px; text-align: center; cursor: pointer;
-    transition: 0.3s; padding: 10px; border-radius: 10px;
+.icon { 
+    width: 90px; text-align: center; cursor: pointer; transition: 0.3s; 
+    padding: 12px; border-radius: 14px; 
 }
-.icon:hover { background: rgba(255,255,255,0.05); transform: translateY(-5px); }
-.icon svg { width: 40px; color: var(--accent); filter: drop-shadow(0 0 5px var(--accent)); }
-.icon span { display: block; font-size: 9px; margin-top: 8px; font-weight: bold; }
+.icon:hover { background: rgba(0, 242, 255, 0.05); transform: translateY(-3px); }
+.icon svg { width: 38px; color: var(--accent); filter: drop-shadow(0 0 8px var(--accent-dim)); }
+.icon span { display: block; font-size: 10px; margin-top: 8px; font-weight: 600; opacity: 0.8; }
 
-/* CRUD Elements */
-.file-item {
-    display: flex; justify-content: space-between; padding: 12px;
-    border-bottom: 1px solid var(--border); cursor: pointer;
-}
-.file-item:hover { background: rgba(0,242,255,0.1); }
-.delete-btn { background: none; border: 1px solid #ff4444; color: #ff4444; font-size: 9px; cursor: pointer; border-radius: 4px; }
-
-/* Inputs */
-input, textarea {
-    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-    color: #fff; padding: 10px; margin-bottom: 15px; border-radius: 4px;
-}
-textarea { height: 200px; }
-.btn-primary {
-    width: 100%; background: var(--accent); color: #000; border: none;
-    padding: 12px; font-weight: bold; cursor: pointer; border-radius: 6px;
+/* Lock Screen */
+#lock-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center;
+    transition: 0.6s ease;
 }
 
-/* Taskbar */
+.lock-box { text-align: center; padding: 50px; background: #0a0a0a; border: 1px solid var(--border); border-radius: 32px; }
+.lock-avatar svg { width: 50px; color: var(--accent); margin-bottom: 20px; animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+.unlocked { opacity: 0; pointer-events: none; transform: scale(1.1); }
+
+#pin-input {
+    width: 150px; text-align: center; font-size: 28px; letter-spacing: 10px;
+    background: none; border: none; border-bottom: 2px solid var(--border);
+    color: var(--accent); outline: none; margin: 20px 0;
+}
+
+.btn-primary { 
+    background: var(--accent); color: #000; border: none; padding: 12px 24px; 
+    border-radius: 8px; font-weight: bold; cursor: pointer; 
+}
+
+/* Browser/Terminal UI */
+.browser-controls { display: flex; gap: 10px; margin-bottom: 10px; }
+#browser-url { flex-grow: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: #fff; padding: 8px; }
+.term-container { background: rgba(0,0,0,0.3); font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+#term-input { background: none; border: none; color: #fff; outline: none; width: 85%; }
+
 #taskbar {
-    height: 60px; background: rgba(0,0,0,0.9); border-top: 1px solid var(--border);
+    height: 60px; background: rgba(5,5,5,0.9); border-top: 1px solid var(--border);
     display: flex; align-items: center; padding: 0 30px; justify-content: space-between;
 }
-.start-btn { background: var(--accent); color: #000; padding: 5px 15px; border-radius: 4px; font-weight: bold; }
+.user-line {
+    color: var(--accent);
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.sys-line {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 10px;
+    padding-left: 10px;
+    border-left: 1px solid var(--accent-dim);
+}
+
+.term-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-dim) transparent;
+}
+
+.sys-line pre {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    margin: 0;
+    line-height: 1.2;
+    color: var(--accent);
+}
+
+.user-line {
+    color: #fff;
+    opacity: 0.5;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    margin-top: 15px;
+}

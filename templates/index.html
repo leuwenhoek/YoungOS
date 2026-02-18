@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YoungOS | Premium Indie</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="desktop">
+        <div class="icon" onclick="openApp('files')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            <span>ARCHIVE</span>
+        </div>
+        <div class="icon" onclick="createNewFile()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+            <span>NEW_FILE</span>
+        </div>
+        <div class="icon" onclick="openApp('terminal')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span>SHELL</span>
+        </div>
+
+        <div id="window-files" class="window" style="width: 400px; height: 450px;">
+            <div class="window-header"><span>YOUNG_OS // ARCHIVE</span><button onclick="closeApp('files')">✕</button></div>
+            <div class="window-content" id="file-list"></div>
+        </div>
+
+        <div id="window-creator" class="window" style="width: 600px; height: 480px;">
+            <div class="window-header"><span>YOUNG_OS // FORGE</span><button onclick="closeApp('creator')">✕</button></div>
+            <div class="window-content">
+                <input type="text" id="save-name" placeholder="filename.txt">
+                <textarea id="save-content" placeholder="Enter logic..."></textarea>
+                <button class="btn-primary" onclick="saveFile()">DEPLOY TO STORAGE</button>
+            </div>
+        </div>
+
+        <div id="window-terminal" class="window" style="width: 650px; height: 400px;">
+            <div class="window-header"><span>YOUNG_OS // SHELL</span><button onclick="closeApp('terminal')">✕</button></div>
+            <div class="window-content term-container">
+                <div id="term-output">System initialized...</div>
+                <div class="input-line"><span>$</span><input type="text" id="term-input"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="taskbar">
+        <div class="start-btn">YoungOS</div>
+        <div id="clock">00:00:00</div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
